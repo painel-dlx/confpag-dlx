@@ -1,5 +1,6 @@
 {
-    "version": "0.0.1",
+    "name": "painel-dlx/confpag-dlx",
+    "version": "1.0-alpha",
     "license": "MIT",
     "repositories": [
         {
