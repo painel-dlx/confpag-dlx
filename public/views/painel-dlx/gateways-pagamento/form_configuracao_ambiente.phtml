@@ -1,0 +1,90 @@
+<?php
+/**
+ * MIT License
+ *
+ * Copyright (c) 2018 PHP DLX
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+use PainelDLX\ConfPag\Domain\Entities\GatewayPagamento;
+use PainelDLX\ConfPag\Domain\Entities\GatewayPagamentoConfiguracao;
+use Vilex\VileX;
+
+/** @var VileX $this */
+
+/** @var GatewayPagamento $gateway_pagamento */
+$gateway_pagamento = $this->getAtributo('gateway-pagamento');
+
+/** @var GatewayPagamentoConfiguracao $configuracao */
+$configuracao = $this->getAtributo('gateway-pagamento-configuracao');
+
+$gateway_pagamento_id = $gateway_pagamento->getId();
+$ambiente = $this->getAtributo('ambiente-configuracao');
+$usuario = null;
+$senha = null;
+
+
+if (!is_null($configuracao)) {
+    $ambiente = $configuracao->getAmbiente();
+    $usuario = $configuracao->getUsuario();
+    $senha = $configuracao->getSenha();
+}
+?>
+
+[CORPO]
+<h1 class="titulo-pagina"><?php echo $this->getAtributo('titulo-pagina') ?></h1>
+
+<form id="form-config-ambiente" method="post" action="/painel-dlx/pagamento/gateways/ambiente/<?php echo $ambiente ?>" class="form-config-permissoes">
+    <input type="hidden" name="gateway" value="<?php echo $gateway_pagamento_id ?>">
+
+    <fieldset class="form-grupo">
+        <p class="form-paragr">
+            <span class="form-label">Gateway</span>
+            <?php echo $gateway_pagamento ?>
+        </p>
+
+        <p class="form-paragr">
+            <label for="txt-usuario" class="form-label">Usuário / Afiliação</label>
+            <input type="text" name="usuario" id="txt-usuario" value="<?php echo $usuario ?>" class="form-controle" required>
+        </p>
+
+        <p class="form-paragr">
+            <label for="txt-token" class="form-label">Senha / Token</label>
+            <input type="text" name="senha" id="txt-token" value="<?php echo $senha ?>" class="form-controle" required>
+        </p>
+    </fieldset>
+
+    <p class="form-botoes">
+        <button type="submit" class="botao-salvar" data-ajax-msg="Salvando configurações desse ambiente.<br>Por favor aguarde...">
+            Salvar
+        </button>
+    </p>
+</form>
+[/CORPO]
+
+[SCRIPTS]
+<script>
+    $('#form-config-ambiente').formAjax({
+        form_depois: function (json, status, xhr) {
+            msgUsuario.mostrar(json.mensagem, json.retorno, xhr.id);
+        }
+    });
+</script>
+[/SCRIPTS]

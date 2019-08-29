@@ -1,0 +1,99 @@
+<?php
+/**
+ * MIT License
+ *
+ * Copyright (c) 2018 PHP DLX
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+use DLX\Core\Configure;
+use PainelDLX\ConfPag\Domain\Entities\GatewayPagamento;
+use Vilex\VileX;
+
+/** @var VileX $this */
+
+$lista_gateways = $this->getAtributo('lista-gateways');
+$filtro = $this->getAtributo('filtro');
+?>
+
+[HTML-HEAD]
+<title><?php echo $this->getAtributo('titulo-pagina'), ' | ', Configure::get('app', 'nome-amigavel') ?></title>
+[/HTML-HEAD]
+
+[CORPO]
+<h1 class="titulo-pagina"><?php echo $this->getAtributo('titulo-pagina') ?></h1>
+
+<nav class="menu-opcoes">
+    <form id="filtro-registros" class="filtro-registros">
+        <div class="multi-select">
+            <span class="multi-select-item">Procurar em...</span>
+
+            <div class="multi-select-itens">
+                <label class="multi-select-item">
+                    <input type="checkbox" name="campos[]" value="nome"<?php echo empty($filtro['campos']) || in_array('nome', $filtro['campos']) ? ' checked' : '' ?>>
+                    Nome
+                </label>
+            </div>
+        </div>
+
+        <input type="search" name="busca" value="<?php echo $filtro['busca'] ?>" placeholder="Encontrar gateway de pagamento" class="form-controle">
+    </form>
+
+    <button type="submit" form="filtro-registros" class="botao-buscar">Buscar</button>
+</nav>
+
+<table id="lista-gateways" class="lista-registros">
+    <thead>
+    <tr>
+        <th id="gateway-pagamento-id">ID</th>
+        <th id="nome">Nome</th>
+        <th id="ativo">Ativo?</th>
+        <th id="opcoes">Opções</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <?php if (!count($lista_gateways)) : ?>
+        <tr>
+            <td colspan="4" class="sem-registros">Nenhum gateway de pagamento encontrado.</td>
+        </tr>
+    <?php endif;
+
+    /** @var GatewayPagamento $gateway */
+    foreach ($lista_gateways as $gateway) : ?>
+        <tr>
+            <td headers="gateway-pagamento-id"><?php echo $gateway->getId() ?></td>
+            <td headers="nome">
+                <?php echo $gateway->getNome() ?>
+            </td>
+            <td headers="ativo">
+                <?php echo $gateway->isAtivo() ? 'Sim' : 'Não' ?>
+            </td>
+            <td headers="opcoes">
+                <a href="/painel-dlx/pagamento/gateways/detalhe?gateway=<?php echo $gateway->getId() ?>" class="link-detalhe" title="Informações desse gateway de pagamento">
+                    Detalhe
+                </a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+[/CORPO]
+

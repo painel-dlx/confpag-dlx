@@ -1,0 +1,31 @@
+.detalhe-gateway-pagamento {
+    // Flex
+    display: flex;
+    flex-flow: row wrap;
+
+    .--geral {
+        // Flex
+        flex: 100% 0 0;
+    }
+
+    .--sandbox,
+    .--producao {
+        // Flex
+        flex: 49% 0 0;
+
+        // Posicionamento
+        position: relative;
+
+        > .link-editar {
+            // Posicionamento
+            position: absolute;
+            right: 30px;
+            top: 50%;
+        }
+    }
+
+    .--sandbox {
+        // Margens
+        margin-right: 2%;
+    }
+}

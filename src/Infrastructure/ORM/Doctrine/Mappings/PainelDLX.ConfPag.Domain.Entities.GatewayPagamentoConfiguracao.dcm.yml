@@ -1,0 +1,28 @@
+PainelDLX\ConfPag\Domain\Entities\GatewayPagamentoConfiguracao:
+    type: entity
+    table: dlx_gateway_pagamento_configuracao
+    repositoryClass: PainelDLX\ConfPag\Infrastructure\ORM\Doctrine\Repositories\GatewayPagamentoConfiguracaoRepository
+    id:
+        gateway:
+            associationKey: true
+        ambiente:
+            type: string
+            id: true
+            nullable: false
+            length: 10
+    fields:
+        usuario:
+            type: string
+            nullable: false
+            length: 100
+        senha:
+            type: string
+            nullable: false
+            length: 100
+    manyToOne:
+        gateway:
+            targetEntity: GatewayPagamento
+            inversedBy: configuracoes
+            joinColumns:
+                gateway_pagamento_id:
+                    referencedColumnName: gateway_pagamento_id

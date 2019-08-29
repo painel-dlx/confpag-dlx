@@ -1,7 +1,28 @@
 {
     "version": "0.0.1",
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "github",
+            "url": "https://github.com/dlepera88-php/checkout-dlx"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PainelDLX\\ConfPag\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PainelDLX\\Tests\\ConfPag\\": "tests",
+            "PainelDLX\\Tests\\": "vendor/painel-dlx/painel-dlx/tests"
+        }
+    },
     "require-dev": {
         "phpunit/phpunit": "^7.5"
+    },
+    "require": {
+        "painel-dlx/painel-dlx": "^3.0",
+        "dlepera88-php/checkout-dlx": "1.0-alpha"
     }
 }
