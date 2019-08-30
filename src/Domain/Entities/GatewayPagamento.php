@@ -105,8 +105,11 @@ class GatewayPagamento extends Entity
         if (is_string($this->servico)) {
             if (class_exists($this->servico)) {
                 $configuracao = $this->getConfiguracaoAmbiente($ambiente);
-                $nomeServico = $this->getNomeServico();
-                return new $nomeServico($configuracao->getUsuario(), $configuracao->getSenha(), $configuracao->getAmbiente());
+
+                if (!is_null($configuracao)) {
+                    $nomeServico = $this->getNomeServico();
+                    return new $nomeServico($configuracao->getUsuario(), $configuracao->getSenha(), $configuracao->getAmbiente());
+                }
             }
 
             return null;
