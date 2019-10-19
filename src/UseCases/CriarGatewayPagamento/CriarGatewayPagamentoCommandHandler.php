@@ -60,7 +60,7 @@ class CriarGatewayPagamentoCommandHandler
         $conf_sandbox = $command->getConfSandbox();
         $conf_producao = $command->getConfProducao();
 
-        $gateway = new GatewayPagamento($command->getNome());
+        $gateway = new GatewayPagamento($command->getNome(), $command->getServico());
         $gateway->addConfiguracao(GatewayAmbiente::SANDBOX, $conf_sandbox['usuario'], $conf_sandbox['senha']);
 
         if (!is_null($conf_producao)) {

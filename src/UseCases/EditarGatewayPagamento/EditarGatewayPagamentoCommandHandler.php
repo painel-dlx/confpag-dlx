@@ -68,6 +68,7 @@ class EditarGatewayPagamentoCommandHandler
         }
 
         $gateway->setNome($command->getNome());
+        $gateway->setNomeServico($command->getServico());
 
         $this->gateway_pagamento_repository->update($gateway);
 

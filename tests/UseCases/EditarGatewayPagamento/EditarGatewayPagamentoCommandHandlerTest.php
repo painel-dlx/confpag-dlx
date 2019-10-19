@@ -47,7 +47,8 @@ class EditarGatewayPagamentoCommandHandlerTest extends TestCase
     {
         $gateway_pagamento_id = mt_rand();
         $nome = 'Teste';
-        $gateway = new GatewayPagamento($nome);
+        $servico = 'Teste\\Teste';
+        $gateway = new GatewayPagamento($nome, $servico);
 
         $gateway_pagamento_repository = $this->createMock(GatewayPagamentoRepositoryInterface::class);
         $gateway_pagamento_repository->method('find')->willReturn($gateway);
@@ -56,12 +57,14 @@ class EditarGatewayPagamentoCommandHandlerTest extends TestCase
         /** @var GatewayPagamentoRepositoryInterface $gateway_pagamento_repository */
 
         $novo_nome = 'Outro Teste';
-        $command = new EditarGatewayPagamentoCommand($gateway_pagamento_id, $novo_nome);
+        $novo_servico = 'Teste\\OutroServico';
+        $command = new EditarGatewayPagamentoCommand($gateway_pagamento_id, $novo_nome, $novo_servico);
         $handler = new EditarGatewayPagamentoCommandHandler($gateway_pagamento_repository);
 
         $gateway = $handler->handle($command);
 
         $this->assertEquals($novo_nome, $gateway->getNome());
+        $this->assertEquals($novo_servico, $gateway->getNomeServico());
     }
 
     /**
@@ -78,7 +81,7 @@ class EditarGatewayPagamentoCommandHandlerTest extends TestCase
         $this->expectException(GatewayPagamentoNaoEncontradoException::class);
         $this->expectExceptionCode(10);
 
-        $command = new EditarGatewayPagamentoCommand(mt_rand(), 'Teste');
+        $command = new EditarGatewayPagamentoCommand(mt_rand(), 'Teste', 'Teste\\Teste');
         $handler = new EditarGatewayPagamentoCommandHandler($gateway_pagamento_repository);
         $handler->handle($command);
     }

@@ -40,16 +40,22 @@ class CriarGatewayPagamentoCommand
      * @var array|null
      */
     private $conf_producao;
+    /**
+     * @var string
+     */
+    private $servico;
 
     /**
      * CriarGatewayPagamentoCommand constructor.
      * @param string $nome
+     * @param string $servico
      * @param array $conf_sandbox
      * @param array|null $conf_producao
      */
-    public function __construct(string $nome, array $conf_sandbox, ?array $conf_producao)
+    public function __construct(string $nome, string $servico, array $conf_sandbox, ?array $conf_producao)
     {
         $this->nome = $nome;
+        $this->servico = $servico;
         $this->conf_sandbox = $conf_sandbox;
         $this->conf_producao = $conf_producao;
     }
@@ -60,6 +66,14 @@ class CriarGatewayPagamentoCommand
     public function getNome(): string
     {
         return $this->nome;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServico(): string
+    {
+        return $this->servico;
     }
 
     /**

@@ -97,6 +97,16 @@ class GatewayPagamento extends Entity
     }
 
     /**
+     * @param string $nome_servico
+     * @return $this
+     */
+    public function setNomeServico(string $nome_servico): self
+    {
+        $this->servico = $nome_servico;
+        return $this;
+    }
+
+    /**
      * @param string $ambiente
      * @return GatewayPagamentoInterface|null
      */

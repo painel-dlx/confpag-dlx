@@ -45,11 +45,13 @@ class GatewayPagamentoTest extends TestCase
     public function test__construct(): GatewayPagamento
     {
         $nome = 'Pagateway';
-        $gateway = new GatewayPagamento($nome);
+        $nome_servico = "Pagamento\\{$nome}";
+        $gateway = new GatewayPagamento($nome, $nome_servico);
 
         $this->assertInstanceOf(GatewayPagamento::class, $gateway);
         $this->assertEquals($nome, $gateway->getNome());
         $this->assertEquals($nome, (string)$gateway);
+        $this->assertEquals($nome_servico, $gateway->getNomeServico());
         $this->assertFalse($gateway->isDeletado());
         $this->assertInstanceOf(ConfiguracoesCollectionInterface::class, $gateway->getConfiguracoes());
 

@@ -51,10 +51,11 @@ class CriarGatewayPagamentoCommandHandlerTest extends TestCase
         /** @var GatewayPagamentoRepositoryInterface $gateway_pagamento_repository */
 
         $nome = 'Pagateway';
+        $classe_servico = "Pagamento\\{$nome}";
         $conf_sandbox = ['usuario' => mt_rand(), 'senha' => 'teste1'];
         $conf_producao = ['usuario' => mt_rand(), 'senha' => 'teste2'];
 
-        $command = new CriarGatewayPagamentoCommand($nome, $conf_sandbox, $conf_producao);
+        $command = new CriarGatewayPagamentoCommand($nome, $classe_servico, $conf_sandbox, $conf_producao);
         $handler = new CriarGatewayPagamentoCommandHandler($gateway_pagamento_repository);
 
         $gateway = $handler->handle($command);

@@ -1,6 +1,6 @@
 {
     "name": "painel-dlx/confpag-dlx",
-    "version": "1.0-alpha",
+    "version": "1.0.0",
     "license": "MIT",
     "repositories": [
         {
@@ -24,6 +24,6 @@
     },
     "require": {
         "painel-dlx/painel-dlx": "^3.0",
-        "dlepera88-php/checkout-dlx": "1.0-alpha"
+        "dlepera88-php/checkout-dlx": "^1.0"
     }
 }

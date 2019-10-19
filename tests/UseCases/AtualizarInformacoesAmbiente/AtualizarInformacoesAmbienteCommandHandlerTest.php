@@ -28,6 +28,7 @@ namespace PainelDLX\Tests\ConfPag\UseCases\AtualizarInformacoesAmbiente;
 use PainelDLX\ConfPag\Domain\Entities\GatewayAmbiente;
 use PainelDLX\ConfPag\Domain\Entities\GatewayPagamento;
 use PainelDLX\ConfPag\Domain\Exceptions\GatewayPagamentoNaoEncontradoException;
+use PainelDLX\ConfPag\Domain\Repositories\GatewayPagamentoConfiguracaoRepositoryInterface;
 use PainelDLX\ConfPag\Domain\Repositories\GatewayPagamentoRepositoryInterface;
 use PainelDLX\ConfPag\UseCases\AtualizarInformacoesAmbiente\AtualizarInformacoesAmbienteCommand;
 use PainelDLX\ConfPag\UseCases\AtualizarInformacoesAmbiente\AtualizarInformacoesAmbienteCommandHandler;
@@ -49,21 +50,26 @@ class AtualizarInformacoesAmbienteCommandHandlerTest extends TestCase
         $ambiente = GatewayAmbiente::SANDBOX;
         $usuario = mt_rand();
         $senha = 'teste1';
+        $servico = 'Pagamento\\Pagateway';
 
-        $gateway = new GatewayPagamento('Pagateway');
+        $gateway = new GatewayPagamento('Pagateway', $servico);
         $gateway->addConfiguracao($ambiente, $usuario, $senha);
 
         $gateway_pagamento_repository = $this->createMock(GatewayPagamentoRepositoryInterface::class);
         $gateway_pagamento_repository->method('find')->willReturn($gateway);
         $gateway_pagamento_repository->method('update')->willReturn(null);
 
+        $gateway_pagamento_configuracao_repository = $this->createMock(GatewayPagamentoConfiguracaoRepositoryInterface::class);
+        $gateway_pagamento_configuracao_repository->method('findOneBy')->willReturn($gateway->getConfiguracaoAmbiente($ambiente));
+
         /** @var GatewayPagamentoRepositoryInterface $gateway_pagamento_repository */
+        /** @var GatewayPagamentoConfiguracaoRepositoryInterface $gateway_pagamento_configuracao_repository */
 
         $novo_usuario = mt_rand();
         $nova_senha = 'teste2';
 
         $command = new AtualizarInformacoesAmbienteCommand(mt_rand(), $ambiente, $novo_usuario, $nova_senha);
-        $handler = new AtualizarInformacoesAmbienteCommandHandler($gateway_pagamento_repository);
+        $handler = new AtualizarInformacoesAmbienteCommandHandler($gateway_pagamento_repository, $gateway_pagamento_configuracao_repository);
 
         $gateway = $handler->handle($command);
         $configuracao = $gateway->getConfiguracaoAmbiente($ambiente);
@@ -85,10 +91,13 @@ class AtualizarInformacoesAmbienteCommandHandlerTest extends TestCase
         $gateway_pagamento_repository = $this->createMock(GatewayPagamentoRepositoryInterface::class);
         $gateway_pagamento_repository->method('find')->willReturn(null);
 
+        $gateway_pagamento_configuracao_repository = $this->createMock(GatewayPagamentoConfiguracaoRepositoryInterface::class);
+
         /** @var GatewayPagamentoRepositoryInterface $gateway_pagamento_repository */
+        /** @var GatewayPagamentoConfiguracaoRepositoryInterface $gateway_pagamento_configuracao_repository */
 
         $command = new AtualizarInformacoesAmbienteCommand(mt_rand(), $ambiente, $usuario, $senha);
-        $handler = new AtualizarInformacoesAmbienteCommandHandler($gateway_pagamento_repository);
+        $handler = new AtualizarInformacoesAmbienteCommandHandler($gateway_pagamento_repository, $gateway_pagamento_configuracao_repository);
 
         $this->expectException(GatewayPagamentoNaoEncontradoException::class);
         $this->expectExceptionCode(10);

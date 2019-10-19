@@ -36,11 +36,22 @@ class EditarGatewayPagamentoCommand
      * @var string
      */
     private $nome;
+    /**
+     * @var string
+     */
+    private $servico;
 
-    public function __construct(int $gateway_pagamento_id, string $nome)
+    /**
+     * EditarGatewayPagamentoCommand constructor.
+     * @param int $gateway_pagamento_id
+     * @param string $nome
+     * @param string $servico
+     */
+    public function __construct(int $gateway_pagamento_id, string $nome, string $servico)
     {
         $this->gateway_pagamento_id = $gateway_pagamento_id;
         $this->nome = $nome;
+        $this->servico = $servico;
     }
 
     /**
@@ -57,5 +68,13 @@ class EditarGatewayPagamentoCommand
     public function getNome(): string
     {
         return $this->nome;
+    }
+
+    /**
+     * @return string
+     */
+    public function getServico(): string
+    {
+        return $this->servico;
     }
 }
