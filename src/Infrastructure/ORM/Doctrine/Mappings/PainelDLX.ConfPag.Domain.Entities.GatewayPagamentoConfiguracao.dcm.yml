@@ -1,6 +1,6 @@
 PainelDLX\ConfPag\Domain\Entities\GatewayPagamentoConfiguracao:
     type: entity
-    table: dlx_gateway_pagamento_configuracao
+    table: confpag.GatewayPagamentoConfiguracao
     repositoryClass: PainelDLX\ConfPag\Infrastructure\ORM\Doctrine\Repositories\GatewayPagamentoConfiguracaoRepository
     id:
         gateway:

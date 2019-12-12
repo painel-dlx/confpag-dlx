@@ -52,8 +52,9 @@ class ConfpagRouter extends PainelDLXRouter
         $define_pagina_mestra = $container->get(DefinePaginaMestra::class);
         /** @var ConfigurarPaginacao $configurar_paginacao */
         $configurar_paginacao = $container->get(ConfigurarPaginacao::class);
-        /** @var Autorizacao $autorizacao */
-        $autorizacao = $container->get(Autorizacao::class);
+        /** @var Autorizacao $autorizacao_gerenciar_gateways */
+        $autorizacao_gerenciar_gateways = $container->get(Autorizacao::class);
+        $autorizacao_gerenciar_gateways->setPermissoes('GERENCIAR_GATEWAYS_PAGAMENTO');
 
         $router->get(
             '/painel-dlx/pagamento/gateways',
@@ -61,7 +62,7 @@ class ConfpagRouter extends PainelDLXRouter
         )->middlewares(
             $define_pagina_mestra,
             $verificar_logon,
-            $autorizacao,
+            $autorizacao_gerenciar_gateways,
             $configurar_paginacao
         );
 
@@ -71,7 +72,7 @@ class ConfpagRouter extends PainelDLXRouter
         )->middlewares(
             $define_pagina_mestra,
             $verificar_logon,
-            $autorizacao
+            $autorizacao_gerenciar_gateways
         );
 
         $router->get(
@@ -80,7 +81,7 @@ class ConfpagRouter extends PainelDLXRouter
         )->middlewares(
             $define_pagina_mestra,
             $verificar_logon,
-            $autorizacao
+            $autorizacao_gerenciar_gateways
         );
 
         $router->post(
@@ -88,7 +89,7 @@ class ConfpagRouter extends PainelDLXRouter
             [ConfiguracaoAmbienteController::class, 'salvarConfiguracaoAmbiente']
         )->middlewares(
             $verificar_logon,
-            $autorizacao
+            $autorizacao_gerenciar_gateways
         );
     }
 }
