@@ -23,6 +23,44 @@
  * SOFTWARE.
  */
 
-return [
-    'vendor/painel-dlx/painel-dlx'
-];
+namespace PainelDLX\ConfPag\UseCases\VincularUsuario;
+
+
+class VincularUsuarioCommand
+{
+    /**
+     * @var int
+     */
+    private $gateway_pagamento_id;
+    /**
+     * @var int
+     */
+    private $usuario_id;
+
+    /**
+     * VincularUsuarioCommand constructor.
+     * @param int $gateway_pagamento_id
+     * @param int $usuario_id
+     */
+    public function __construct(int $gateway_pagamento_id, int $usuario_id)
+    {
+        $this->gateway_pagamento_id = $gateway_pagamento_id;
+        $this->usuario_id = $usuario_id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getGatewayPagamentoId(): int
+    {
+        return $this->gateway_pagamento_id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUsuarioId(): int
+    {
+        return $this->usuario_id;
+    }
+}

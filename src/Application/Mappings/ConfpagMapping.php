@@ -38,6 +38,8 @@ use PainelDLX\ConfPag\UseCases\GetGatewayPagamentoPorId\GetGatewayPagamentoPorId
 use PainelDLX\ConfPag\UseCases\GetGatewayPagamentoPorId\GetGatewayPagamentoPorIdCommandHandler;
 use PainelDLX\ConfPag\UseCases\ListaGatewaysPagamento\ListaGatewaysPagamentoCommand;
 use PainelDLX\ConfPag\UseCases\ListaGatewaysPagamento\ListaGatewaysPagamentoCommandHandler;
+use PainelDLX\ConfPag\UseCases\VincularUsuario\VincularUsuarioCommand;
+use PainelDLX\ConfPag\UseCases\VincularUsuario\VincularUsuarioCommandHandler;
 
 class ConfpagMapping
 {
@@ -48,6 +50,7 @@ class ConfpagMapping
         AtualizarInformacoesAmbienteCommand::class => AtualizarInformacoesAmbienteCommandHandler::class,
         GetGatewayPagamentoAtivoCommand::class => GetGatewayPagamentoAtivoCommandHandler::class,
         GetGatewayPagamentoPorIdCommand::class => GetGatewayPagamentoPorIdCommandHandler::class,
+        VincularUsuarioCommand::class => VincularUsuarioCommandHandler::class,
     ];
 
     /**

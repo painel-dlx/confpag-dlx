@@ -27,11 +27,15 @@ namespace PainelDLX\Tests\ConfPag\Presentation\PainelDLX\Controllers;
 
 use PainelDLX\ConfPag\Presentation\PainelDLX\Controllers\DetalheGatewayPagamentoController;
 use PainelDLX\Tests\ConfPag\TestCase\ConfpagTestCase;
+use PHPUnit\Util\Json;
 use Psr\Http\Message\ServerRequestInterface;
 use Vilex\Exceptions\ContextoInvalidoException;
 use Vilex\Exceptions\PaginaMestraNaoEncontradaException;
 use Vilex\Exceptions\ViewNaoEncontradaException;
 use Zend\Diactoros\Response\HtmlResponse;
+use Zend\Diactoros\Response\JsonResponse;
+
+$_SESSION = [];
 
 /**
  * Class DetalheGatewayPagamentoControllerTest
@@ -62,5 +66,52 @@ class DetalheGatewayPagamentoControllerTest extends ConfpagTestCase
         $response = $controller->detalheGatewayPagamento($request);
 
         $this->assertInstanceOf(HtmlResponse::class, $response);
+    }
+
+    /**
+     * @throws ContextoInvalidoException
+     * @throws PaginaMestraNaoEncontradaException
+     * @throws ViewNaoEncontradaException
+     * @covers ::formVincularUsuario
+     */
+    public function test_FormVincularUsuario_deve_retornar_HtmlResponse()
+    {
+        $gateway_pagamento_id = mt_rand();
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getQueryParams')->willReturn([
+            'gateway' => $gateway_pagamento_id
+        ]);
+
+        /** @var ServerRequestInterface $request */
+
+        /** @var DetalheGatewayPagamentoController $controller */
+        $controller = self::$painel_dlx->getContainer()->get(DetalheGatewayPagamentoController::class);
+        $response = $controller->formVincularUsuario($request);
+
+        $this->assertInstanceOf(HtmlResponse::class, $response);
+    }
+
+    /**
+     * @covers ::vincularUsuario
+     */
+    public function test_VincularUsuario_deve_retornar_JsonResponse()
+    {
+        $gateway_pagamento_id = mt_rand(1, 99999);
+        $usuario_id = mt_rand(1, 99999);
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getParsedBody')->willReturn([
+            'gateway_pagamento_id' => $gateway_pagamento_id,
+            'usuario_id' => $usuario_id
+        ]);
+
+        /** @var ServerRequestInterface $request */
+
+        /** @var DetalheGatewayPagamentoController $controller */
+        $controller = self::$painel_dlx->getContainer()->get(DetalheGatewayPagamentoController::class);
+        $response = $controller->vincularUsuario($request);
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
     }
 }

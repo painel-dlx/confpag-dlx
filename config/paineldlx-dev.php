@@ -23,9 +23,7 @@
  * SOFTWARE.
  */
 
-use PainelDLX\Application\Services\PainelDLX;
-
-$dir_painel_dlx = !empty(PainelDLX::$dir) ? PainelDLX::$dir . DIRECTORY_SEPARATOR : '';
+$dir_painel_dlx = 'vendor/painel-dlx/painel-dlx/';
 
 return [
     'app' => [
@@ -35,7 +33,7 @@ return [
         'service-providers' => include 'painel-dlx/service-providers.php',
         'rotas' => include 'painel-dlx/rotas.php',
         'mapping' => include 'painel-dlx/mapping.php',
-        'versao' => '1.0.0',
+        'versao' => '1.1.0',
         'favicon' => "{$dir_painel_dlx}public/imgs/favicon.png"
     ],
 

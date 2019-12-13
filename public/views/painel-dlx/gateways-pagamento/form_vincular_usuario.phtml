@@ -1,0 +1,80 @@
+<?php
+
+use PainelDLX\ConfPag\Domain\Entities\GatewayPagamento;
+use PainelDLX\Domain\Usuarios\Entities\Usuario;
+use Vilex\VileX;
+/**
+ * MIT License
+ *
+ * Copyright (c) 2018 PHP DLX
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NON INFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+/** @var VileX $this */
+
+/** @var GatewayPagamento $gateway_pagamento */
+$gateway_pagamento = $this->getAtributo('gateway-pagamento');
+
+$lista_usuarios = $this->getAtributo('lista-usuarios');
+?>
+
+[CORPO]
+<h1 class="titulo-pagina"><?php echo $this->getAtributo('titulo-pagina') ?></h1>
+
+<form id="form-vincular-usuario" method="post" action="/painel-dlx/pagamento/gateways/vincular-usuario">
+    <input type="hidden" name="gateway_pagamento_id" value="<?php echo $gateway_pagamento->getId() ?>">
+
+    <p class="mensagem-usuario -info">
+        <b>Por que preciso vincular um usuário?</b><br>
+        É necessário vincular um usuário ao gateway de pagamento para registrar e identificar as ações e logs no sistema.<br>
+        <b>Obs:</b> O usuário <u><b>NÃO PRECISA</b></u> ter acesso ou permissões no sistema.
+    </p>
+
+    <p class="form-paragr">
+        <label for="sel-usuario" class="form-rotulo">Usuário:</label>
+        <select name="usuario_id" id="sel-usuario" class="form-controle form-controle-select" required>
+            <option value="">Escolha um usuário</option>
+
+            <?php
+            /** @var Usuario $usuario */
+            foreach ($lista_usuarios as $usuario) : ?>
+            <option value="<?php echo $usuario->getId() ?>"
+                <?php echo $gateway_pagamento->getUsuario() && $usuario->getId() === $gateway_pagamento->getUsuario()->getId() ? ' SELECTED' : '' ?>>
+                <?php echo "#{$usuario->getId()} {$usuario->getNome()}" ?>
+            </option>
+            <?php endforeach; ?>
+        </select>
+    </p>
+
+    <p class="form-botoes">
+        <button type="submit" class="botao-salvar">Salvar</button>
+    </p>
+</form>
+[/CORPO]
+
+[SCRIPTS]
+<script>
+    $('#form-vincular-usuario').formAjax({
+        form_depois: function (json, status, xhr) {
+            msgUsuario.mostrar(json.mensagem, json.retorno, xhr.id);
+        }
+    });
+</script>
+[/SCRIPTS]

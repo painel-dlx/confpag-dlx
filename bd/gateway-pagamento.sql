@@ -2,6 +2,7 @@ drop table if exists confpag.GatewayPagamento;
 create table confpag.GatewayPagamento (
     gateway_pagamento_id int not null primary key auto_increment,
     nome varchar(100) not null,
+    usuario_id int not null references dlx.Usuario (usuario_id),
     servico varchar(255) not null,
     ativo bool not null default 0,
     deletado bool not null default 0

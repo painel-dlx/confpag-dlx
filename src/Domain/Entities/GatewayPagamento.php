@@ -29,6 +29,7 @@ use CheckoutDLX\Domain\Services\Pagamento\GatewayPagamentoInterface;
 use DLX\Domain\Entities\Entity;
 use PainelDLX\ConfPag\Domain\Collections\ConfiguracoesCollectionInterface;
 use PainelDLX\ConfPag\Infrastructure\ORM\Doctrine\Collection\ConfiguracoesCollection;
+use PainelDLX\Domain\Usuarios\Entities\Usuario;
 
 /**
  * Class GatewayPagamento
@@ -41,6 +42,8 @@ class GatewayPagamento extends Entity
     private $id;
     /** @var string */
     private $nome;
+    /** @var Usuario */
+    private $usuario;
     /** @var GatewayPagamentoInterface|string|null */
     private $servico;
     /** @var bool */
@@ -91,6 +94,27 @@ class GatewayPagamento extends Entity
         $this->nome = $nome;
     }
 
+    /**
+     * @return Usuario|null
+     */
+    public function getUsuario(): ?Usuario
+    {
+        return $this->usuario;
+    }
+
+    /**
+     * @param Usuario $usuario
+     * @return GatewayPagamento
+     */
+    public function setUsuario(Usuario $usuario): GatewayPagamento
+    {
+        $this->usuario = $usuario;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
     public function getNomeServico(): string
     {
         return $this->servico;

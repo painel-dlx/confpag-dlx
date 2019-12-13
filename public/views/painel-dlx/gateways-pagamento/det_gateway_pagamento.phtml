@@ -23,7 +23,6 @@
  * SOFTWARE.
  */
 
-use DLX\Core\Configure;
 use PainelDLX\ConfPag\Domain\Entities\GatewayAmbiente;
 use PainelDLX\ConfPag\Domain\Entities\GatewayPagamento;
 use PainelDLX\ConfPag\Domain\Entities\GatewayPagamentoConfiguracao;
@@ -40,9 +39,6 @@ $sandbox = $gateway_pagamento->getConfiguracaoAmbiente(GatewayAmbiente::SANDBOX)
 /** @var GatewayPagamentoConfiguracao $producao */
 $producao = $gateway_pagamento->getConfiguracaoAmbiente(GatewayAmbiente::PRODUCAO);
 ?>
-[HTML-HEAD]
-<title><?php echo $this->getAtributo('titulo-pagina'), ' | ', Configure::get('app', 'nome-amigavel') ?></title>
-[/HTML-HEAD]
 
 [CORPO]
 <h1 class="titulo-pagina"><?php echo $this->getAtributo('titulo-pagina') ?></h1>
@@ -59,6 +55,22 @@ $producao = $gateway_pagamento->getConfiguracaoAmbiente(GatewayAmbiente::PRODUCA
         <p class="detalhe-registro-paragr">
             <span class="detalhe-registro-rotulo">Serviço</span>
             <?php echo $gateway_pagamento->getNomeServico() ?>
+        </p>
+
+        <p class="detalhe-registro-paragr">
+            <span class="detalhe-registro-rotulo">Usuário Vinculado</span>
+
+            <?php if (!is_null($gateway_pagamento->getUsuario())) :
+                echo $gateway_pagamento->getUsuario() ?>
+                <a href="javascript:" class="link-editar" onclick="popupVincularUsuario(<?php echo $gateway_pagamento->getId() ?>)" title="Alterar o usuário vinculado a esse gateway de pagamento">
+                    Alterar usuário vinculado
+                </a>
+            <?php else : ?>
+                Nenhum usuário vinculado
+                <a href="javascript:" class="link-inserir" onclick="popupVincularUsuario(<?php echo $gateway_pagamento->getId() ?>)">
+                    Vincular usuário
+                </a>
+            <?php endif; ?>
         </p>
 
         <p class="detalhe-registro-paragr">
@@ -113,4 +125,5 @@ $producao = $gateway_pagamento->getConfiguracaoAmbiente(GatewayAmbiente::PRODUCA
 </div>
 
 <div id="popup-config-ambiente" class="popup-modal" style="display: none;"></div>
+<div id="popup-vincular-usuario" class="popup-modal" style="display: none;"></div>
 [/CORPO]

@@ -76,6 +76,23 @@ class ConfpagRouter extends PainelDLXRouter
         );
 
         $router->get(
+            '/painel-dlx/pagamento/gateways/vincular-usuario',
+            [DetalheGatewayPagamentoController::class, 'formVincularUsuario']
+        )->middlewares(
+            $define_pagina_mestra,
+            $verificar_logon,
+            $autorizacao_gerenciar_gateways
+        );
+
+        $router->post(
+            '/painel-dlx/pagamento/gateways/vincular-usuario',
+            [DetalheGatewayPagamentoController::class, 'vincularUsuario']
+        )->middlewares(
+            $verificar_logon,
+            $autorizacao_gerenciar_gateways
+        );
+
+        $router->get(
             '/painel-dlx/pagamento/gateways/ambiente/{ambiente}',
             [ConfiguracaoAmbienteController::class, 'formConfiguracaoAmbiente']
         )->middlewares(

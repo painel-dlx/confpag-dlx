@@ -34,3 +34,9 @@ PainelDLX\ConfPag\Domain\Entities\GatewayPagamento:
             joinColumns:
                 gateway_pagamento_id:
                     referencedColumnName: gateway_pagamento_id
+    manyToOne:
+        usuario:
+            targetEntity: PainelDLX\Domain\Usuarios\Entities\Usuario
+            joinColumns:
+                usuario_id:
+                    referencedColumnName: usuario_id
