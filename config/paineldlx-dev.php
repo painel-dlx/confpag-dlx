@@ -33,7 +33,6 @@ return [
         'service-providers' => include 'painel-dlx/service-providers.php',
         'rotas' => include 'painel-dlx/rotas.php',
         'mapping' => include 'painel-dlx/mapping.php',
-        'versao' => '1.1.0',
         'favicon' => "{$dir_painel_dlx}public/imgs/favicon.png"
     ],
 
@@ -52,8 +51,8 @@ return [
         'conexao' => [
             'dbname' => 'confpag',
             'user' => 'root',
-            'password' => '$d5Ro0t',
-            'host' => 'localhost',
+            'password' => 'root',
+            'host' => 'mysql56',
             'driver' => 'pdo_mysql',
             'charset' => 'utf8',
         ]

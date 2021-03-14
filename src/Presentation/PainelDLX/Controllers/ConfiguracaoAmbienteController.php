@@ -32,12 +32,11 @@ use PainelDLX\ConfPag\Domain\Exceptions\GatewayPagamentoNaoEncontradoException;
 use PainelDLX\ConfPag\UseCases\AtualizarInformacoesAmbiente\AtualizarInformacoesAmbienteCommand;
 use PainelDLX\ConfPag\UseCases\AtualizarInformacoesAmbiente\AtualizarInformacoesAmbienteCommandHandler;
 use PainelDLX\ConfPag\UseCases\GetGatewayPagamentoPorId\GetGatewayPagamentoPorIdCommand;
-use PainelDLX\Presentation\Site\Common\Controllers\PainelDLXController;
+use PainelDLX\Presentation\Web\Common\Controllers\PainelDLXController;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Vilex\Exceptions\ContextoInvalidoException;
-use Vilex\Exceptions\PaginaMestraNaoEncontradaException;
-use Vilex\Exceptions\ViewNaoEncontradaException;
+use Vilex\Exceptions\PaginaMestraInvalidaException;
+use Vilex\Exceptions\TemplateInvalidoException;
 use Zend\Diactoros\Response\JsonResponse;
 
 /**
@@ -51,9 +50,8 @@ class ConfiguracaoAmbienteController extends PainelDLXController
      * @param ServerRequestInterface $request
      * @param array $args
      * @return ResponseInterface
-     * @throws ContextoInvalidoException
-     * @throws PaginaMestraNaoEncontradaException
-     * @throws ViewNaoEncontradaException
+     * @throws PaginaMestraInvalidaException
+     * @throws TemplateInvalidoException
      */
     public function formConfiguracaoAmbiente(ServerRequestInterface $request, array $args = []): ResponseInterface
     {
@@ -76,8 +74,8 @@ class ConfiguracaoAmbienteController extends PainelDLXController
 
             // JS
             $versao = Configure::get('app', 'versao');
-            $this->view->addArquivoJS('vendor/dlepera88-jquery/jquery-form-ajax/jquery.formajax.plugin-min.js', false, $versao);
-            $this->view->addArquivoJS('public/js/confpag-min.js', false, $versao);
+            $this->view->adicionarJS('vendor/dlepera88-jquery/jquery-form-ajax/jquery.formajax.plugin-min.js', $versao);
+            $this->view->adicionarJS('public/js/confpag-min.js', $versao);
         } catch (GatewayPagamentoNaoEncontradoException $e) {
             $this->view->addTemplate('common/mensagem_usuario');
             $this->view->setAtributo('mensagem', [

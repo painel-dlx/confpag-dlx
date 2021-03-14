@@ -26,22 +26,20 @@
 namespace PainelDLX\ConfPag\Presentation\PainelDLX\Controllers;
 
 
-use DLX\Core\Configure;
 use League\Tactician\CommandBus;
 use PainelDLX\ConfPag\Domain\Entities\GatewayPagamento;
 use PainelDLX\ConfPag\Domain\Exceptions\GatewayPagamentoNaoEncontradoException;
 use PainelDLX\ConfPag\UseCases\GetGatewayPagamentoPorId\GetGatewayPagamentoPorIdCommand;
 use PainelDLX\ConfPag\UseCases\VincularUsuario\VincularUsuarioCommand;
 use PainelDLX\ConfPag\UseCases\VincularUsuario\VincularUsuarioCommandHandler;
-use PainelDLX\Presentation\Site\Common\Controllers\PainelDLXController;
+use PainelDLX\Presentation\Web\Common\Controllers\PainelDLXController;
 use PainelDLX\UseCases\Usuarios\GetListaUsuarios\GetListaUsuariosCommand;
 use PainelDLX\UseCases\Usuarios\GetListaUsuarios\GetListaUsuariosCommandHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SechianeX\Contracts\SessionInterface;
-use Vilex\Exceptions\ContextoInvalidoException;
-use Vilex\Exceptions\PaginaMestraNaoEncontradaException;
-use Vilex\Exceptions\ViewNaoEncontradaException;
+use Vilex\Exceptions\PaginaMestraInvalidaException;
+use Vilex\Exceptions\TemplateInvalidoException;
 use Vilex\VileX;
 use Zend\Diactoros\Response\JsonResponse;
 
@@ -57,22 +55,21 @@ class DetalheGatewayPagamentoController extends PainelDLXController
      * @param VileX $view
      * @param CommandBus $commandBus
      * @param SessionInterface $session
-     * @throws ViewNaoEncontradaException
+     * @throws TemplateInvalidoException
      */
     public function __construct(VileX $view, CommandBus $commandBus, SessionInterface $session)
     {
         parent::__construct($view, $commandBus, $session);
 
-        $this->view->addArquivoCss('public/temas/painel-dlx/css/confpag.tema.css', false, VERSAO_CONFPAG_DLX);
-        $this->view->addArquivoJS('public/js/confpag-min.js', false, VERSAO_CONFPAG_DLX);
+        $this->view->adicionarCss('public/temas/painel-dlx/css/confpag.tema.css', VERSAO_CONFPAG_DLX);
+        $this->view->adicionarJS('public/js/confpag-min.js', VERSAO_CONFPAG_DLX);
     }
 
     /**
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws PaginaMestraNaoEncontradaException
-     * @throws ContextoInvalidoException
-     * @throws ViewNaoEncontradaException
+     * @throws TemplateInvalidoException
+     * @throws PaginaMestraInvalidaException
      */
     public function detalheGatewayPagamento(ServerRequestInterface $request): ResponseInterface
     {
@@ -89,10 +86,9 @@ class DetalheGatewayPagamentoController extends PainelDLXController
             // Views
             $this->view->addTemplate('painel-dlx/gateways-pagamento/det_gateway_pagamento');
         } catch (GatewayPagamentoNaoEncontradoException $e) {
-            $this->view->addTemplate('common/mensagem_usuario');
-            $this->view->setAtributo('mensagem', [
+            $this->view->addTemplate('common/mensagem_usuario', [
                 'tipo' => 'erro',
-                'texto' => $e->getMessage()
+                'mensagem' => $e->getMessage()
             ]);
         }
 
@@ -100,12 +96,11 @@ class DetalheGatewayPagamentoController extends PainelDLXController
     }
 
     /**
-     * @todo fazer os testes unitários dos métodos formVincularUsuario e vincularUsuario
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws ContextoInvalidoException
-     * @throws PaginaMestraNaoEncontradaException
-     * @throws ViewNaoEncontradaException
+     * @throws TemplateInvalidoException
+     * @throws PaginaMestraInvalidaException
+     * @todo fazer os testes unitários dos métodos formVincularUsuario e vincularUsuario
      */
     public function formVincularUsuario(ServerRequestInterface $request): ResponseInterface
     {
@@ -128,12 +123,11 @@ class DetalheGatewayPagamentoController extends PainelDLXController
             $this->view->addTemplate('painel-dlx/gateways-pagamento/form_vincular_usuario');
 
             // Arquivo JS
-            $this->view->addArquivoJS('/vendor/dlepera88-jquery/jquery-form-ajax/jquery.formajax.plugin-min.js', false, VERSAO_CONFPAG_DLX);
+            $this->view->adicionarJS('/vendor/dlepera88-jquery/jquery-form-ajax/jquery.formajax.plugin-min.js', VERSAO_CONFPAG_DLX);
         } catch (GatewayPagamentoNaoEncontradoException $e) {
-            $this->view->addTemplate('common/mensagem_usuario');
-            $this->view->setAtributo('mensagem', [
+            $this->view->addTemplate('common/mensagem_usuario', [
                 'tipo' => 'erro',
-                'texto' => $e->getMessage()
+                'mensagem' => $e->getMessage()
             ]);
         }
 

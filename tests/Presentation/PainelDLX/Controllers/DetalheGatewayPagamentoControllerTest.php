@@ -27,11 +27,9 @@ namespace PainelDLX\Tests\ConfPag\Presentation\PainelDLX\Controllers;
 
 use PainelDLX\ConfPag\Presentation\PainelDLX\Controllers\DetalheGatewayPagamentoController;
 use PainelDLX\Tests\ConfPag\TestCase\ConfpagTestCase;
-use PHPUnit\Util\Json;
 use Psr\Http\Message\ServerRequestInterface;
-use Vilex\Exceptions\ContextoInvalidoException;
-use Vilex\Exceptions\PaginaMestraNaoEncontradaException;
-use Vilex\Exceptions\ViewNaoEncontradaException;
+use Vilex\Exceptions\PaginaMestraInvalidaException;
+use Vilex\Exceptions\TemplateInvalidoException;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\JsonResponse;
 
@@ -45,9 +43,8 @@ $_SESSION = [];
 class DetalheGatewayPagamentoControllerTest extends ConfpagTestCase
 {
     /**
-     * @throws ContextoInvalidoException
-     * @throws PaginaMestraNaoEncontradaException
-     * @throws ViewNaoEncontradaException
+     * @throws PaginaMestraInvalidaException
+     * @throws TemplateInvalidoException
      * @covers ::detalheGatewayPagamento
      */
     public function test_DetalheGatewayPagamento_deve_retornar_HtmlResponse()
@@ -69,9 +66,8 @@ class DetalheGatewayPagamentoControllerTest extends ConfpagTestCase
     }
 
     /**
-     * @throws ContextoInvalidoException
-     * @throws PaginaMestraNaoEncontradaException
-     * @throws ViewNaoEncontradaException
+     * @throws PaginaMestraInvalidaException
+     * @throws TemplateInvalidoException
      * @covers ::formVincularUsuario
      */
     public function test_FormVincularUsuario_deve_retornar_HtmlResponse()

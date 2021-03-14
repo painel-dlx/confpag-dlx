@@ -23,10 +23,12 @@
  * SOFTWARE.
  */
 
+use PainelDLX\Application\ServiceProviders\DefaultServiceProvider;
 use PainelDLX\Application\ServiceProviders\PainelDLXServiceProvider;
 use PainelDLX\ConfPag\Application\ServiceProviders\ConfpagServiceProvider;
 
 return [
+    DefaultServiceProvider::class,
     PainelDLXServiceProvider::class,
     ConfpagServiceProvider::class,
 ];

@@ -29,13 +29,12 @@ namespace PainelDLX\ConfPag\Presentation\PainelDLX\Controllers;
 use DLX\Core\Exceptions\UserException;
 use PainelDLX\ConfPag\UseCases\ListaGatewaysPagamento\ListaGatewaysPagamentoCommand;
 use PainelDLX\ConfPag\UseCases\ListaGatewaysPagamento\ListaGatewaysPagamentoCommandHandler;
-use PainelDLX\Presentation\Site\Common\Controllers\PainelDLXController;
+use PainelDLX\Presentation\Web\Common\Controllers\PainelDLXController;
 use PainelDLX\UseCases\ListaRegistros\ConverterFiltro2Criteria\ConverterFiltro2CriteriaCommand;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Vilex\Exceptions\ContextoInvalidoException;
-use Vilex\Exceptions\PaginaMestraNaoEncontradaException;
-use Vilex\Exceptions\ViewNaoEncontradaException;
+use Vilex\Exceptions\PaginaMestraInvalidaException;
+use Vilex\Exceptions\TemplateInvalidoException;
 
 /**
  * Class ListaGatewayPagamentoController
@@ -47,9 +46,8 @@ class ListaGatewayPagamentoController extends PainelDLXController
     /**
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws PaginaMestraNaoEncontradaException
-     * @throws ContextoInvalidoException
-     * @throws ViewNaoEncontradaException
+     * @throws PaginaMestraInvalidaException
+     * @throws TemplateInvalidoException
      */
     public function listaGatewaysPagamento(ServerRequestInterface $request): ResponseInterface
     {
