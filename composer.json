@@ -1,6 +1,6 @@
 {
     "name": "painel-dlx/confpag-dlx",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "license": "MIT",
     "repositories": [
         {
@@ -25,5 +25,6 @@
     "require": {
         "painel-dlx/painel-dlx": "^3.0",
         "dlepera88-php/checkout-dlx": "^1.0"
-    }
+    },
+    "description": "Módulo de pagamentos para Painel DLX."
 }
